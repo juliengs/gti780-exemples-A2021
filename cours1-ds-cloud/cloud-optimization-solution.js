@@ -77,6 +77,9 @@ const findBestRegion = ( clients ) => {
 
 	    for (let clientDestination of clients) {
 
+		if (clientSource == clientDestination)
+		    continue;
+
 		// Calculate latency using that AWS region
 		sum += clientSource[region]/2 + clientDestination[region]/2;
 		count++;
@@ -103,5 +106,54 @@ const findBestRegion = ( clients ) => {
 
 // Implement your code here:
 const findLowestLatencyReplicated = ( clients ) => {
-    
+    // Get list of regions
+    const regions = Object.keys(clients[0]);
+
+    let messageCounts = {};
+    let totalMessages = 0;
+    let totalLatency = 0;
+
+    // Iterate for all pairs of clients (e.g., 0-0, 0-1, 0-2, ...)
+    for (let clientSource of clients) {
+	
+	for (let clientDestination of clients) {
+
+	    if (clientSource == clientDestination)
+		continue;
+
+	    let bestLatency = 99999;
+	    let bestRegion = "";
+	    
+	    // Iterate for all regions
+	    for (let region of regions) {
+		let latency = clientSource[region]/2 + clientDestination[region]/2;
+
+		if (latency < bestLatency) {
+		    bestLatency = latency;
+		    bestRegion = region;
+		}
+	    }
+
+	    // Add message count for that region
+	    if (bestRegion in messageCounts) {
+		messageCounts[bestRegion] += 1
+	    } else {
+		messageCounts[bestRegion] = 1
+	    }
+	    totalMessages += 1
+	    totalLatency += bestLatency
+
+	}
+    }
+
+    // Calculate message percentages and best region
+
+    for (let region of regions) {
+	messageCounts[region] = Math.round(messageCounts[region] / totalMessages * 100);
+    }
+
+    let avgLatency = totalLatency / totalMessages
+    console.log("\n\nAverage latency: " + avgLatency);
+
+    console.log(messageCounts);
 }
