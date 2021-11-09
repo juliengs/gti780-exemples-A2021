@@ -1,0 +1,60 @@
+A: C1
+B: C2
+C: C4
+D: C5
+
+1: B,C,D -> C2, C4, C5
+
+A: C1
+B: C3
+C: C5
+D: C6
+
+2: B,D -> C3, C6
+
+A: C1
+B: C4
+C: C5
+D: C5
+ 
+3: B,C -> C4, C5
+
+A: C1
+B: C2
+C: C4
+D: C5
+
+4: B -> C2
+
+A: C1
+B: C3
+C: C4
+D: C5
+
+5: A,B -> C1, C3
+
+A: C2
+B: C4
+C: C4
+D: C5
+
+6: B -> C4
+
+A: C2
+B: C2
+C: C4
+D: C5
+
+7: B,C -> C2, C4
+
+A: C2
+B: C3
+C: C5
+D: C5
+
+8: B,D -> C3, C5
+
+A: C2
+B: C4
+C: C5
+D: C6
