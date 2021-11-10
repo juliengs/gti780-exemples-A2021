@@ -1,0 +1,11 @@
+109.
+     
+subscribe("Montreal/Verdun/Capteurs/Temperature/+")
+
+
+subscribe("Montreal/+/Capteurs/#")
+subscribe("Montreal/#/Capteurs/#")
+
+ex. #
+/Montreal/Verdun/Pomme/Banane/Capteurs/Temperature/1
+/        {                  }/Capteurs

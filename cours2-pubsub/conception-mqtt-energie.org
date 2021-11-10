@@ -1,0 +1,42 @@
+Solution du prof:
+
+- ETS
+  - Building
+    - Regulator
+    - Locaux
+      - Sensors
+	- Thermometers
+	  - 00, 01, ...
+	- Hygrometer
+      - Actuators
+	- Heat
+	- Cold
+
+ETS/buildingA/A-4456/sensors/thermometers/00
+
+ex. souscrire à tous les thermomètres de mon bureau
+sans les autres capteurs
+subscribe("ETS/buildingA/A-4456/sensors/thermometers/+")
+
+Publication données capteurs
+publish("ETS/buildingA/A-4456/sensors/thermometers/00")
+publish("ETS/buildingA/A-4456/sensors/hygrometer")
+
+Régulateurs ex. buildingA:
+subscribe("ETS/buildingA/+/sensors/#")
+
+Actuateurs (ex., mon bureau)
+Actuateur de chaleur:
+subscribe("ETS/buildingA/A-4456/actuators/heat")
+Actuateur de froid:
+subscribe("ETS/buildingA/A-4456/actuators/cold")
+
+
+Solution d'un étudiant:
+
+ETS/Building00/local00/sensors/thermometer00
+ETS/Building00/local00/sensors/hydrometer
+ETS/Building00/local00/actuator/heat
+ETS/Building00/local00/actuator/cold
+ETS/Building00/regulator
+ETS/controller

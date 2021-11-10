@@ -1,0 +1,35 @@
+- Service en ligne avec serveur MQTT
+  - Plusieurs utilisateurs de PlantETS. Chaque usager:
+    - Un contrôleur pour l'ensemble des plantes
+    - Plusieurs plantes. Chaque plante:
+      - Différents capteurs
+	- Température
+	- Humidité
+	- ...
+      - Pompe
+- Interface web
+
+(PlantETS/user00/controller)
+PlantETS/user00/plants/plant00
+PlantETS/user00/plants/plant00/sensors/temperature
+PlantETS/user00/plants/plant00/sensors/humidity
+PlantETS/user00/plants/plant00/pump
+
+Controller de l'usager user00:
+subscribe("PlantETS/user00/plants/+/sensors/#")
+
+Contrôleur va publier des actions à la pompe de la plante 00
+publish("PlantETS/user00/plants/plant00/pump")
+
+Interface web
+subscribe("PlantETS/+/plants/+/sensors/#")
+
+-- Version alternative
+
+PlantETS/user00/plants/controller
+
+Contrôleur pourrait publier des actions sur un topic associé au contrôleur de la plante 00
+publish("PlantETS/user00/plants/plant00/controller")
+
+Pompe de la plante 00:
+subscribe("PlantETS/user00/plants/plants00/controller")
