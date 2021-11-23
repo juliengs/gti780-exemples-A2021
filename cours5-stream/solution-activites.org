@@ -1,0 +1,46 @@
+* Activité en classe: construction d'un diagramme
+
+  Solution dans les diapositives
+
+* Activité 1: latence sur le chemin critique
+
+  Nous avons 3 chemins:
+  - Chemin 1: haut
+  - Chemin 2: milieu
+  - Chemin 3: bas
+
+  Calcul des latences:
+  - Chemin 1: $4+4+6+3+2+5+4=28$
+  - Chemin 2: $4+11+8+10+1=34$
+  - Chemin 3: $2+9+5+12+3=31$
+
+  Chemin critique: chemin 2, pour une latence de 34
+
+* Activité 2: latence moyenne du graphe
+
+  Comme on a vu en cours, la latence est influencée par les 3 éléments suivants:
+  1. La latence sur le réseau entre chacun des noeuds (hébergeant les opérateurs): $T_{latence}$
+  2. Temps de propagation: $T_{\mathrm{propagation}}=\mathrm{\frac{taille_{\mathrm{message}}}{\text{\ensuremath{\mathrm{debit}}}}}$
+     - Considère le débit réseau entre chacun des noeuds (hébergeant les opérateurs) et la taille des messages transmis
+  3. Le temps de traitement pour chacun des opérateurs : $T_{\mathrm{traitement}}$
+     - Il faut également considérer le ratio de sélectivité des opérateurs
+
+  Pour optimiser, nous précalculons le temps de propagation pour chacune des valeurs de bande passante, puisque la taille des messages est toujours la même:
+  - $B=1\mathrm{mbits/s}$: $T_{\mathrm{propagation}}^1=\frac{5.12\mathrm{kbits/s}}{1024\mathrm{kbits/s}}=5\mathrm{ms}$
+  - $B=0.5\mathrm{mbits/s}$: $T_{\mathrm{propagation}}^{0.5}=\frac{5.12\mathrm{kbits/s}}{512\mathrm{kbits/s}}=10\mathrm{ms}$
+  - $B=0.25\mathrm{mbits/s}$: $T_{\mathrm{propagation}}^{0.25}=\frac{5.12\mathrm{kbits/s}}{256\mathrm{kbits/s}}=20\mathrm{ms}$
+
+  Puisque la source émet 20 msg/s, un message sera émis à chaque 50ms. Nous remarquons que tous les opérateurs ont une sélectivité $\sigma=1:1$, sauf l'opérateur /Filter/, pour lequel $\sigma=3:1$. Cela signifie que l'opérateur /Filter/ ne sera activé que lorsque 3 messages auront été reçus, ce qui impactera les opérateurs subséquents.
+
+  Temps où le premier message aura été reçu par l'opérateur /Filter/ (en ms):
+  - $0 + (3 + 5) + 8 + (10 + 10) = 36$
+
+  Le deuxième message ne sera expédié qu'à 50ms, ce qui est supérieur à 36ms (cela simplifie grandement le calcul) -- nous pouvons simplement considérer le 3ème message, qui sera expédié à 100ms, puisque le /Filter/ doit attendre que 3 messages soient reçus. Le temps où le 3ème message aura été reçu par l'opérateur /Filter/ (en ms) est le suivant:
+  - $100 + (3 + 5) + 8 + (10 + 10) = 136$
+
+  Ensuite, l'opérateur /Filter/ traite le message (+6ms): $136+6=142$
+
+  Nous calculons ensuite les latences sur les deux chemins pour ensuite calculer la moyenne.
+  - Latence chemin du haut: $142+(6+10)+8+(4+5)=175$
+  - Latence chemin bas: $142+(5+20)+5+(9+10)=191$
+  - Latence moyenne: $\frac{175+191}{2}=183$
